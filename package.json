@@ -1,0 +1,26 @@
+{
+  "name": "the-bid-users",
+  "version": "0.1.0",
+  "description": "This is a microservice associated with the bid that handles users.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -r dotenv/config src/index.js",
+    "start:dev": "npm-run-all -pl start playground ",
+    "start:prod": "node src/index.js",
+    "playground": "graphql playground --port 3001"
+  },
+  "author": "bialesdaniel@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "auth0": "^2.9.1",
+    "graphql-yoga": "^1.8.5",
+    "jsonwebtoken": "^8.2.1",
+    "simple-oauth2": "^1.5.2"
+  },
+  "devDependencies": {
+    "dotenv": "^5.0.1",
+    "nodemon": "^1.17.4",
+    "npm-run-all": "^4.1.2"
+  }
+}

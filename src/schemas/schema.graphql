@@ -1,0 +1,16 @@
+type Query{
+  users(filter: String): [User!]!
+  user(id:ID!): User!
+  getJWT: Token!
+}
+
+type User {
+  id: ID!
+  username: String!
+  createdAt: String!
+}
+
+type Token {
+  token: String!
+  expiresIn: Int!
+}
