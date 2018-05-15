@@ -2,12 +2,17 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 9
   },
-  plugins: ['jest', 'prettier'],
+  plugins: ['jest', 'prettier', 'security'],
   env: {
     node: true,
     es6: true
   },
-  extends: ['eslint:recommended', 'plugin:jest/recommended', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:jest/recommended',
+    'plugin:prettier/recommended',
+    'plugin:security/recommended'
+  ],
   rules: {
     'no-var': 'error',
     'prefer-const': 'error',
