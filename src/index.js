@@ -1,14 +1,7 @@
-const {GraphQLServer} = require('graphql-yoga')
-const {ManagementClient, AuthenticationClient} = require('auth0')
+const { GraphQLServer } = require('graphql-yoga')
+const { ManagementClient, AuthenticationClient } = require('auth0')
 const Query = require('./resolvers/Query')
-const {
-  PORT,
-  AUTH0_CLIENT_ID,
-  AUTH0_CLIENT_SECRET,
-  AUTH0_DOMAIN,
-  AUTH0_SCOPES
-} = require('../config')
-
+const { PORT, AUTH0_CLIENT_ID, AUTH0_CLIENT_SECRET, AUTH0_DOMAIN, AUTH0_SCOPES } = require('../config')
 
 const resolvers = {
   Query
@@ -22,11 +15,11 @@ const auth0Mgmt = new ManagementClient({
 })
 
 const auth0Auth = new AuthenticationClient({
-  domain:AUTH0_DOMAIN
+  domain: AUTH0_DOMAIN
 })
 
 const server = new GraphQLServer({
-  typeDefs:__dirname+'/schemas/schema.graphql',
+  typeDefs: __dirname + '/schemas/schema.graphql',
   resolvers,
   context: req => ({
     ...req,
@@ -35,6 +28,11 @@ const server = new GraphQLServer({
   })
 })
 
-server.start({
-  port:PORT
-},()=> console.log(`the-bid-users is running on port: ${PORT}`))
+/*eslint-disable no-console*/
+server.start(
+  {
+    port: PORT
+  },
+  () => console.log(`the-bid-users is running on port: ${PORT}`)
+)
+/*eslint-enable no-console*/
