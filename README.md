@@ -1,9 +1,10 @@
 # Users
 
-![license](https://img.shields.io/github/license/the-bid/microservice-users.svg?style=flat-square)
-![GitHub last commit (master)](https://img.shields.io/github/last-commit/the-bid/microservice-users/master.svg?style=flat-square)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/the-bid/microservice-users.svg?style=flat-square)
-![GitHub issues](https://img.shields.io/github/issues/the-bid/microservice-users.svg?style=flat-square)
+[![license](https://img.shields.io/github/license/the-bid/microservice-users.svg?style=flat-square)](https://github.com/the-bid/microservice-users/blob/master/LICENSE)
+[![GitHub last commit (master)](https://img.shields.io/github/last-commit/the-bid/microservice-users/master.svg?style=flat-square)](https://github.com/the-bid/microservice-users/commits/master)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/the-bid/microservice-users.svg?style=flat-square)](https://github.com/the-bid/microservice-users/pulls)
+[![GitHub issues](https://img.shields.io/github/issues/the-bid/microservice-users.svg?style=flat-square)](https://github.com/the-bid/microservice-users/issues)
+
 
 ### Developed by Daniel Biales
 
