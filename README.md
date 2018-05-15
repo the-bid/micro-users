@@ -4,6 +4,7 @@
 [![GitHub last commit (master)](https://img.shields.io/github/last-commit/the-bid/microservice-users/master.svg?style=flat-square)](https://github.com/the-bid/microservice-users/commits/master)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/the-bid/microservice-users.svg?style=flat-square)](https://github.com/the-bid/microservice-users/pulls)
 [![GitHub issues](https://img.shields.io/github/issues/the-bid/microservice-users.svg?style=flat-square)](https://github.com/the-bid/microservice-users/issues)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 
 ### Developed by Daniel Biales
