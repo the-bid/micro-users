@@ -22,6 +22,7 @@ async function user(root, { id }, context, info) {
 
 async function getJWT(root, args, context, info) {
   const result = await context.auth0Auth.users.getInfo(parseBearerToken(context.request))
+
   if (typeof result !== 'object') {
     throw new Error(result)
   }

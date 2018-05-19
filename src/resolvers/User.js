@@ -4,14 +4,14 @@ module.exports = {
   createdAt
 }
 
-function id(root){
+function id(root) {
   return root.user_id
 }
 
-function username(root){
+function username(root) {
   return root.nickname
 }
 
-function createdAt(root){
+function createdAt(root) {
   return root.created_at
 }
