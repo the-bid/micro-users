@@ -1,10 +1,12 @@
 const { GraphQLServer } = require('graphql-yoga')
 const { ManagementClient, AuthenticationClient } = require('auth0')
 const Query = require('./resolvers/Query')
+const User = require('./resolvers/User')
 const { PORT, AUTH0_CLIENT_ID, AUTH0_CLIENT_SECRET, AUTH0_DOMAIN, AUTH0_SCOPES } = require('../config')
 
 const resolvers = {
-  Query
+  Query,
+  User
 }
 
 const auth0Mgmt = new ManagementClient({

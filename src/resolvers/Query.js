@@ -1,4 +1,3 @@
-const User = require('../models/User')
 const jwt = require('jsonwebtoken')
 const { parseBearerToken } = require('../utils')
 const { JWT_SIGNING_SECRET } = require('../../config')
@@ -9,11 +8,8 @@ module.exports = {
   getJWT
 }
 
-async function users(root, args, context, info) {
-  const result = await context.auth0Mgmt.getUsers()
-  return result.map(user => {
-    return new User(user)
-  })
+function users(root, args, context, info) {
+  return context.auth0Mgmt.getUsers()
 }
 
 async function user(root, { id }, context, info) {
@@ -21,7 +17,7 @@ async function user(root, { id }, context, info) {
   if (result.length > 1) {
     throw new Error(`Found multiple users with user_id: ${id}`)
   }
-  return new User(result[0])
+  return result[0]
 }
 
 async function getJWT(root, args, context, info) {
