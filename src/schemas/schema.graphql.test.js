@@ -1,17 +1,17 @@
 const { makeExecutableSchema, addMockFunctionsToSchema } = require('graphql-tools')
 const { graphql } = require('graphql')
 const { importSchema } = require('graphql-import')
-const {moment}= require('casual')
+const { moment } = require('casual')
 
 describe('Schema', () => {
   let schema = null
   beforeAll(() => {
     const typeDefs = importSchema(`${__dirname}/schema.graphql`)
-    schema = makeExecutableSchema({ typeDefs} )
+    schema = makeExecutableSchema({ typeDefs })
     addMockFunctionsToSchema({
       schema,
-      mocks:{
-        DateTime:()=>moment.toISOString()
+      mocks: {
+        DateTime: () => moment.toISOString()
       }
     })
   })
@@ -30,7 +30,7 @@ describe('Schema', () => {
           }
         }
         `
-        const {data} = await graphql(schema, query)
+        const { data } = await graphql(schema, query)
         expect(data.users).toEqual(expect.any(Array))
         data.users.forEach(user => {
           expect(user).toMatchObject({
