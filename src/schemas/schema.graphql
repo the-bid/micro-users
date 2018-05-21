@@ -7,7 +7,7 @@ type Query{
 type User {
   id: ID!
   username: String!
-  createdAt: Date!
+  createdAt: DateTime!
 }
 
 type Token {
@@ -15,4 +15,4 @@ type Token {
   expiresIn: Int!
 }
 
-scalar Date
+scalar DateTime

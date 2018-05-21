@@ -1,14 +1,14 @@
 const { GraphQLServer } = require('graphql-yoga')
 const { ManagementClient, AuthenticationClient } = require('auth0')
+const { GraphQLDateTime: DateTime } = require('graphql-iso-date')
 const Query = require('./resolvers/Query')
 const User = require('./resolvers/User')
-const Date = require('./resolvers/Date')
 const { PORT, AUTH0_CLIENT_ID, AUTH0_CLIENT_SECRET, AUTH0_DOMAIN, AUTH0_SCOPES } = require('../config')
 
 const resolvers = {
   Query,
   User,
-  Date
+  DateTime
 }
 
 const auth0Mgmt = new ManagementClient({

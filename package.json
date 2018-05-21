@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "auth0": "^2.9.1",
+    "graphql-iso-date": "^3.5.0",
     "graphql-yoga": "^1.8.5",
     "jsonwebtoken": "^8.2.1"
   },
