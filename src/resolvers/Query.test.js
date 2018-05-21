@@ -39,18 +39,23 @@ describe('Query', () => {
     afterEach(() => {
       delete context.auth0Mgmt
     })
-    test('user calls auth0Mgmt getUser wiith id', async () => {
+    test('calls auth0Mgmt getUser wiith id', async () => {
       expect.assertions(1)
       const id = uuid
       await user({}, { id }, context)
       expect(context.auth0Mgmt.getUser).toBeCalledWith(id)
     })
-    test('user returns a single user', async () => {
+    test('returns a single user', async () => {
       expect.assertions(1)
       const result = await user({}, { id: uuid }, context)
       expect(result).toBeInstanceOf(MockUser)
     })
-    test('user throws an error if more than one user is returned from auth0Mgmt getUser', async () => {
+    test('throws an error if no user is found', async () => {
+      expect.assertions(1)
+      context.auth0Mgmt.getUser = jest.fn(() => [])
+      await expect(user({}, { id: uuid }, context)).rejects.toThrowError('Could not find user:')
+    })
+    test('throws an error if more than one user is returned from auth0Mgmt getUser', async () => {
       expect.assertions(1)
       context.auth0Mgmt.getUser = jest.fn(() => Array.from(new Array(2), () => new MockUser()))
       await expect(user({}, { id: uuid }, context)).rejects.toThrowError('Found multiple users with user_id:')

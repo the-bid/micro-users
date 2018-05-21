@@ -28,6 +28,8 @@
     "eslint-plugin-jest": "^21.15.1",
     "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-security": "^1.4.0",
+    "graphql": "^0.13.2",
+    "graphql-import": "^0.5.2",
     "jest": "^22.4.3",
     "nodemon": "^1.17.4",
     "npm-run-all": "^4.1.2",
@@ -38,8 +40,8 @@
     "printWidth": 120,
     "singleQuote": true
   },
-  "jest":{
-    "coveragePathIgnorePatterns":[
+  "jest": {
+    "coveragePathIgnorePatterns": [
       "<rootDir>/src/mock-data",
       "<rootDir>/config"
     ]

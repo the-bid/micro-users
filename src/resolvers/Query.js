@@ -14,6 +14,9 @@ function users(root, args, context, info) {
 
 async function user(root, { id }, context, info) {
   const result = await context.auth0Mgmt.getUser(id)
+  if (!result.length) {
+    throw new Error(`Could not find user: ${id}`)
+  }
   if (result.length > 1) {
     throw new Error(`Found multiple users with user_id: ${id}`)
   }

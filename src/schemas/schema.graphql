@@ -7,10 +7,12 @@ type Query{
 type User {
   id: ID!
   username: String!
-  createdAt: String!
+  createdAt: Date!
 }
 
 type Token {
   token: String!
   expiresIn: Int!
 }
+
+scalar Date
