@@ -13,18 +13,21 @@ describe('User', () => {
     test('id takes a user_id and returns a string', () => {
       const result = id(User)
       expect(result).toEqual(expect.any(String))
+      expect(result).toEqual(User.user_id)
     })
   })
   describe('username', () => {
     test('username takes a nickname and returns a string', () => {
       const result = username(User)
       expect(result).toEqual(expect.any(String))
+      expect(result).toEqual(User.nickname)
     })
   })
   describe('createdAt', () => {
     test('createdAt takes a created_at and returns a string', () => {
       const result = createdAt(User)
       expect(result).toEqual(expect.any(String))
+      expect(result).toEqual(User.created_at)
     })
   })
 })
