@@ -1,7 +1,8 @@
 const { uuid, integer } = require('casual')
 process.env.JWT_SIGNING_SECRET = 'something'
 const { users, user, getJWT } = require('./Query')
-const MockUser = require('../mock-data/User')
+const MockUser = require('../../test/mock-data/User')
+const { userAPIObjectTemplate, tokenObjectTemplate } = require('../../test/utils')
 
 describe('Query', () => {
   const context = {}
@@ -26,7 +27,7 @@ describe('Query', () => {
       const result = users({}, {}, context)
       expect(result).toEqual(expect.any(Array))
       result.forEach(user => {
-        expect(user).toBeInstanceOf(MockUser)
+        expect(user).toMatchObject(userAPIObjectTemplate)
       })
     })
   })
@@ -48,7 +49,7 @@ describe('Query', () => {
     test('returns a single user', async () => {
       expect.assertions(1)
       const result = await user({}, { id: uuid }, context)
-      expect(result).toBeInstanceOf(MockUser)
+      expect(result).toMatchObject(userAPIObjectTemplate)
     })
     test('throws an error if no user is found', async () => {
       expect.assertions(1)
@@ -87,10 +88,7 @@ describe('Query', () => {
     })
     test('getJWT returns a Authorization object', async () => {
       const result = await getJWT({}, {}, context)
-      expect(result).toMatchObject({
-        token: expect.any(String),
-        expiresIn: 3600000
-      })
+      expect(result).toMatchObject(tokenObjectTemplate)
     })
     test('getJWT throws an error if object is not returned for auth0Auth getInfo', async () => {
       context.auth0Auth.users.getInfo = jest.fn(() => 'User not found')

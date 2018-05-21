@@ -2,6 +2,7 @@ const { makeExecutableSchema, addMockFunctionsToSchema } = require('graphql-tool
 const { graphql } = require('graphql')
 const { importSchema } = require('graphql-import')
 const { moment } = require('casual')
+const { userObjectTemplate, tokenObjectTemplate } = require('../../test/utils')
 
 describe('Schema', () => {
   let schema = null
@@ -22,7 +23,7 @@ describe('Schema', () => {
     describe('users', () => {
       test('returns a list of users', async () => {
         expect.hasAssertions()
-        const query = ` query users{
+        const query = `query users{
           users{
             id
             username
@@ -33,11 +34,7 @@ describe('Schema', () => {
         const { data } = await graphql(schema, query)
         expect(data.users).toEqual(expect.any(Array))
         data.users.forEach(user => {
-          expect(user).toMatchObject({
-            id: expect.any(String),
-            username: expect.any(String),
-            createdAt: expect.any(String)
-          })
+          expect(user).toMatchObject(userObjectTemplate)
         })
       })
       test('returns a GraphQLError for unknown query property', async () => {
@@ -63,11 +60,7 @@ describe('Schema', () => {
           }
         }`
         const { data } = await graphql(schema, query)
-        expect(data.user).toMatchObject({
-          id: expect.any(String),
-          username: expect.any(String),
-          createdAt: expect.any(String)
-        })
+        expect(data.user).toMatchObject(userObjectTemplate)
       })
     })
     describe('getJWT', () => {
@@ -80,10 +73,7 @@ describe('Schema', () => {
           }
         }`
         const { data } = await graphql(schema, query)
-        expect(data.getJWT).toMatchObject({
-          token: expect.any(String),
-          expiresIn: expect.any(Number)
-        })
+        expect(data.getJWT).toMatchObject(tokenObjectTemplate)
       })
     })
     test('returns a GraphQLError for unknown query', async () => {

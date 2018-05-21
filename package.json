@@ -43,7 +43,7 @@
   },
   "jest": {
     "coveragePathIgnorePatterns": [
-      "<rootDir>/src/mock-data",
+      "<rootDir>/test",
       "<rootDir>/config"
     ]
   }

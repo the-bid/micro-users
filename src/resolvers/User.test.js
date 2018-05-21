@@ -1,5 +1,5 @@
 const { id, username, createdAt } = require('./User')
-const MockUser = require('../mock-data/User')
+const MockUser = require('../../test/mock-data/User')
 
 describe('User', () => {
   let User = null
