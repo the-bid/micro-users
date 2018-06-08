@@ -1,8 +1,8 @@
 const { makeExecutableSchema, addMockFunctionsToSchema } = require('graphql-tools')
 const { graphql } = require('graphql')
 const { importSchema } = require('graphql-import')
-const { moment } = require('casual')
-const { userObjectTemplate, tokenObjectTemplate } = require('../../test/utils')
+const casual = require('casual')
+const { userObjectTemplate, tokenObjectTemplate, missingFieldErrorMessage } = require('../../test/object-templates')
 
 describe('Schema', () => {
   let schema = null
@@ -12,7 +12,7 @@ describe('Schema', () => {
     addMockFunctionsToSchema({
       schema,
       mocks: {
-        DateTime: () => moment.toISOString()
+        DateTime: () => casual.moment.toISOString()
       }
     })
   })
@@ -37,17 +37,6 @@ describe('Schema', () => {
           expect(user).toMatchObject(userObjectTemplate)
         })
       })
-      test('returns a GraphQLError for unknown query property', async () => {
-        expect.assertions(2)
-        const query = `query users{
-          users{
-            unknown
-          }
-        }`
-        const result = await graphql(schema, query)
-        expect(result).toHaveProperty('errors')
-        expect(result.errors[0]).toHaveProperty('message', 'Cannot query field "unknown" on type "User".')
-      })
     })
     describe('user', () => {
       test('returns one user', async () => {
@@ -62,6 +51,23 @@ describe('Schema', () => {
         const { data } = await graphql(schema, query)
         expect(data.user).toMatchObject(userObjectTemplate)
       })
+      test('returns a GraphQLError for missing id field', async () => {
+        expect.assertions(1)
+        const query = `query user{
+          user{
+            id
+            username
+            createdAt
+          }
+        }`
+        const result = await graphql(schema, query)
+        expect(result).toHaveProperty(
+          'errors',
+          expect.arrayContaining([
+            expect.objectContaining(missingFieldErrorMessage({ method: 'user', field: 'id', type: 'ID' }))
+          ])
+        )
+      })
     })
     describe('getJWT', () => {
       test('returns a token and expiresIn', async () => {
@@ -75,17 +81,6 @@ describe('Schema', () => {
         const { data } = await graphql(schema, query)
         expect(data.getJWT).toMatchObject(tokenObjectTemplate)
       })
-    })
-    test('returns a GraphQLError for unknown query', async () => {
-      expect.assertions(2)
-      const query = `query unknown{
-        unknown{
-          id
-        }
-      }`
-      const result = await graphql(schema, query)
-      expect(result).toHaveProperty('errors')
-      expect(result.errors[0]).toHaveProperty('message', 'Cannot query field "unknown" on type "Query".')
     })
   })
 })
