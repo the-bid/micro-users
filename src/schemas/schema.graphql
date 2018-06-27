@@ -10,9 +10,19 @@ type User {
   createdAt: DateTime!
 }
 
-type Token {
+type Token @cacheControl(maxAge:3600, scope:PRIVATE){
   token: String!
   expiresIn: Int!
+}
+
+directive @cacheControl(
+  maxAge: Int,
+  scope: CacheControlScope
+) on OBJECT | FIELD_DEFINITION
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
 }
 
 scalar DateTime

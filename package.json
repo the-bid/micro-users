@@ -16,6 +16,7 @@
   "author": "bialesdaniel@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "apollo-engine": "^1.1.2",
     "auth0": "^2.9.1",
     "graphql-iso-date": "^3.5.0",
     "graphql-yoga": "^1.8.5",

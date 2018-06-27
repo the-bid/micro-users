@@ -1,9 +1,17 @@
 const { GraphQLServer } = require('graphql-yoga')
+const { ApolloEngine } = require('apollo-engine')
 const { ManagementClient, AuthenticationClient } = require('auth0')
 const { GraphQLDateTime: DateTime } = require('graphql-iso-date')
 const Query = require('./resolvers/Query')
 const User = require('./resolvers/User')
-const { PORT, AUTH0_CLIENT_ID, AUTH0_CLIENT_SECRET, AUTH0_DOMAIN, AUTH0_SCOPES } = require('../config')
+const {
+  PORT,
+  AUTH0_CLIENT_ID,
+  AUTH0_CLIENT_SECRET,
+  AUTH0_DOMAIN,
+  AUTH0_SCOPES,
+  APOLLO_ENGINE_API_KEY
+} = require('../config')
 
 const resolvers = {
   Query,
@@ -32,10 +40,31 @@ const server = new GraphQLServer({
   })
 })
 
+const engine = new ApolloEngine({
+  apiKey: APOLLO_ENGINE_API_KEY,
+  stores: [
+    {
+      name: 'privateResponseMemCache'
+    }
+  ],
+  sessionAuth: {
+    header: 'Authorization'
+  },
+  queryCache: {
+    privateFullQueryStore: 'privateResponseMemCache'
+  }
+})
+const graphQLServer = server.createHttpServer({
+  tracing: true,
+  cacheControl: true
+})
+
 /*eslint-disable no-console*/
-server.start(
+engine.listen(
   {
-    port: PORT
+    port: PORT,
+    httpServer: graphQLServer,
+    graphqlPaths: ['/']
   },
   () => console.log(`the-bid-users is running on port: ${PORT}`)
 )
