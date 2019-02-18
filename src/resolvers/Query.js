@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { parseBearerToken } = require('../utils')
+const { parseBearerToken, updateQueryStringForAuth0FieldNames } = require('../utils')
 const { JWT_SIGNING_SECRET } = require('../../config')
 
 module.exports = {
@@ -8,8 +8,13 @@ module.exports = {
   getJWT
 }
 
-function users(root, args, context, info) {
-  return context.auth0Mgmt.getUsers()
+function users(root, { filter }, context, info) {
+  const params = {}
+  if (filter) {
+    params.search_engine = 'v3'
+    params.q = updateQueryStringForAuth0FieldNames(filter)
+  }
+  return context.auth0Mgmt.getUsers(params)
 }
 
 async function user(root, { id }, context, info) {

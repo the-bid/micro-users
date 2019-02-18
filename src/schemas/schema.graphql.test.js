@@ -37,6 +37,21 @@ describe('Schema', () => {
           expect(user).toMatchObject(userObjectTemplate)
         })
       })
+      test('returns a list of users when using a filter', async () => {
+        expect.hasAssertions()
+        const query = `query users{
+          users(filter:"name:*att"){
+            id
+            username
+            createdAt
+          }
+        }`
+        const { data } = await graphql(schema, query)
+        expect(data.users).toEqual(expect.any(Array))
+        data.users.forEach(user => {
+          expect(user).toMatchObject(userObjectTemplate)
+        })
+      })
     })
     describe('user', () => {
       test('returns one user', async () => {

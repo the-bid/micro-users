@@ -24,6 +24,12 @@ describe('Query', () => {
       await users({}, {}, context)
       expect(context.auth0Mgmt.getUsers).toHaveBeenCalledTimes(1)
     })
+    test('users calls auth0Mgmt getUsers with a filter', async () => {
+      expect.assertions(1)
+      const filter = 'name:*att'
+      await users({}, { filter }, context)
+      expect(context.auth0Mgmt.getUsers).toHaveBeenCalledWith({ search_engine: 'v3', q: filter })
+    })
     test('users returns a list of users', async () => {
       expect.hasAssertions()
       const result = await users({}, {}, context)
@@ -46,7 +52,7 @@ describe('Query', () => {
       expect.assertions(1)
       const id = casual.uuid
       await user({}, { id }, context)
-      expect(context.auth0Mgmt.getUser).toBeCalledWith(id)
+      expect(context.auth0Mgmt.getUser).toHaveBeenCalledWith(id)
     })
     test('returns a single user', async () => {
       expect.assertions(1)
@@ -56,12 +62,12 @@ describe('Query', () => {
     test('throws an error if no user is found', async () => {
       expect.assertions(1)
       context.auth0Mgmt.getUser = jest.fn(() => [])
-      await expect(user({}, { id: casual.uuid }, context)).rejects.toThrowError('Could not find user:')
+      await expect(user({}, { id: casual.uuid }, context)).rejects.toThrow('Could not find user:')
     })
     test('throws an error if more than one user is returned from auth0Mgmt getUser', async () => {
       expect.assertions(1)
       context.auth0Mgmt.getUser = jest.fn(() => Array.from(new Array(2), () => new MockUser()))
-      await expect(user({}, { id: casual.uuid }, context)).rejects.toThrowError('Found multiple users with user_id:')
+      await expect(user({}, { id: casual.uuid }, context)).rejects.toThrow('Found multiple users with user_id:')
     })
   })
   describe('getJWT', () => {
@@ -86,7 +92,7 @@ describe('Query', () => {
     test('getJWT calls auth0Auth with bearerToken', async () => {
       const token = context.request.headers.authorization.replace('Bearer ', '')
       await getJWT({}, {}, context)
-      expect(context.auth0Auth.users.getInfo).toBeCalledWith(token)
+      expect(context.auth0Auth.users.getInfo).toHaveBeenCalledWith(token)
     })
     test('getJWT returns a Authorization object', async () => {
       const result = await getJWT({}, {}, context)
@@ -94,7 +100,7 @@ describe('Query', () => {
     })
     test('getJWT throws an error if object is not returned for auth0Auth getInfo', async () => {
       context.auth0Auth.users.getInfo = jest.fn(() => 'User not found')
-      await expect(getJWT({}, {}, context)).rejects.toThrowError('User not found')
+      await expect(getJWT({}, {}, context)).rejects.toThrow('User not found')
     })
   })
 })
