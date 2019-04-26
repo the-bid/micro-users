@@ -42,17 +42,17 @@ describe('Query', () => {
   describe('user', () => {
     beforeEach(() => {
       context.auth0Mgmt = {
-        getUser: jest.fn(() => [new MockUser()])
+        getUser: jest.fn(() => new MockUser())
       }
     })
     afterEach(() => {
       delete context.auth0Mgmt
     })
-    test('calls auth0Mgmt getUser wiith id', async () => {
+    test('calls auth0Mgmt getUser with id', async () => {
       expect.assertions(1)
       const id = casual.uuid
       await user({}, { id }, context)
-      expect(context.auth0Mgmt.getUser).toHaveBeenCalledWith(id)
+      expect(context.auth0Mgmt.getUser).toHaveBeenCalledWith({ id })
     })
     test('returns a single user', async () => {
       expect.assertions(1)
@@ -61,13 +61,10 @@ describe('Query', () => {
     })
     test('throws an error if no user is found', async () => {
       expect.assertions(1)
-      context.auth0Mgmt.getUser = jest.fn(() => [])
-      await expect(user({}, { id: casual.uuid }, context)).rejects.toThrow('Could not find user:')
-    })
-    test('throws an error if more than one user is returned from auth0Mgmt getUser', async () => {
-      expect.assertions(1)
-      context.auth0Mgmt.getUser = jest.fn(() => Array.from(new Array(2), () => new MockUser()))
-      await expect(user({}, { id: casual.uuid }, context)).rejects.toThrow('Found multiple users with user_id:')
+      context.auth0Mgmt.getUser = jest.fn(() => {
+        throw { statusCode: 404, message: 'The user does not exist.' }
+      })
+      await expect(user({}, { id: casual.uuid }, context)).rejects.toThrow(/^The user \S+ does not exist.$/)
     })
   })
   describe('getJWT', () => {

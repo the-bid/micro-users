@@ -18,14 +18,21 @@ function users(root, { filter }, context, info) {
 }
 
 async function user(root, { id }, context, info) {
-  const result = await context.auth0Mgmt.getUser(id)
-  if (!result.length) {
-    throw new Error(`Could not find user: ${id}`)
+  try {
+    const result = await context.auth0Mgmt.getUser({ id })
+    return result
+  } catch ({ message, statusCode }) {
+    let errorMessage
+    switch (statusCode) {
+      case 404:
+        errorMessage = `The user ${id} does not exist.`
+        break
+      default:
+        errorMessage = message
+        break
+    }
+    throw new Error(errorMessage)
   }
-  if (result.length > 1) {
-    throw new Error(`Found multiple users with user_id: ${id}`)
-  }
-  return result[0]
 }
 
 async function getJWT(root, args, context, info) {
